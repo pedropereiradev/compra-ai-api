@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["./*"],
+      "@config/*": ["./core/config/*"],
+      "@db/*": ["./core/database/*"],
+      "@middleware/*": ["./core/middleware/*"]
+    }
+  },
+  "include": ["src/**/*", "src/*"],
+  "exclude": ["node_modules"]
+}
