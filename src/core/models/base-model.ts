@@ -6,20 +6,20 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-} from "typeorm";
+} from 'typeorm';
 
 @Entity()
 class BaseModel extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: "created_at" })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: "updated_at" })
+  @Column({ name: 'updated_at' })
   updatedAt?: Date;
 
-  @Column({ nullable: true, name: "deleted_at" })
+  @Column({ nullable: true, name: 'deleted_at' })
   deletedAt?: Date;
 
   @BeforeInsert()

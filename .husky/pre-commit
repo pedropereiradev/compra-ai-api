@@ -1,1 +1,2 @@
-
+echo "\n🐶 [Husky] Running Biome:"
+pnpm biome format --write ./src

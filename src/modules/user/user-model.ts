@@ -1,5 +1,5 @@
-import BaseModel from "@src/core/models/base-model";
-import { Column } from "typeorm";
+import BaseModel from '@src/core/models/base-model';
+import { Column } from 'typeorm';
 
 class User extends BaseModel {
   @Column()
@@ -11,7 +11,7 @@ class User extends BaseModel {
   @Column()
   password: string;
 
-  @Column({ name: "is_active", default: false })
+  @Column({ name: 'is_active', default: false })
   isActive: boolean;
 }
 
