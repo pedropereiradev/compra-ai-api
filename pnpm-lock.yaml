@@ -11,6 +11,9 @@ dependencies:
   express:
     specifier: ^4.19.2
     version: 4.19.2
+  http-status:
+    specifier: ^1.7.4
+    version: 1.7.4
   nodemon:
     specifier: ^3.1.4
     version: 3.1.4
@@ -26,6 +29,9 @@ dependencies:
   typeorm:
     specifier: ^0.3.20
     version: 0.3.20(pg@8.12.0)(ts-node@10.9.2)
+  zod:
+    specifier: ^3.23.8
+    version: 3.23.8
 
 devDependencies:
   '@biomejs/biome':
@@ -1189,6 +1195,11 @@ packages:
       toidentifier: 1.0.1
     dev: false
 
+  /http-status@1.7.4:
+    resolution: {integrity: sha512-c2qSwNtTlHVYAhMj9JpGdyo0No/+DiKXCJ9pHtZ2Yf3QmPnBIytKSRT7BuyIiQ7icXLynavGmxUqkOjSrAuMuA==}
+    engines: {node: '>= 0.4.0'}
+    dev: false
+
   /human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
@@ -2230,3 +2241,7 @@ packages:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
     dev: true
+
+  /zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+    dev: false
