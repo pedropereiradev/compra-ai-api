@@ -15,5 +15,7 @@ router.post(
   itemController.create.bind(itemController),
 );
 router.patch('/:itemId', itemController.checkItem.bind(itemController));
+router.put('/:itemId', itemController.update.bind(itemController));
+router.delete('/:itemId', itemController.delete.bind(itemController));
 
 export default router;

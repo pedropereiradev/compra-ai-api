@@ -54,6 +54,39 @@ class ItemService {
 
     return item;
   }
+
+  async delete(itemId: string): Promise<void> {
+    const item = await this._repository.findOne({
+      where: { id: Number(itemId) },
+    });
+
+    if (!item) {
+      throw new NotFoundError('Item not found');
+    }
+
+    await this._repository.remove(item);
+
+    return;
+  }
+
+  async update(payload: CreateItemSchema, itemId: string): Promise<Item> {
+    const item = await this._repository.findOne({
+      where: { id: Number(itemId) },
+    });
+
+    if (!item) {
+      throw new NotFoundError('Item not found');
+    }
+
+    item.name = payload.name;
+    item.quantity = payload.quantity;
+    item.price = payload.price ? Number(payload.price) : null;
+    item.description = payload.description;
+
+    await this._repository.save(item);
+
+    return item;
+  }
 }
 
 export default ItemService;

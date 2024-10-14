@@ -38,6 +38,35 @@ class ItemController {
       next(error);
     }
   }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { itemId } = req.params;
+
+      await this._service.delete(itemId);
+
+      return res.status(httpStatus.NO_CONTENT).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { itemId } = req.params;
+      const { description, name, price, quantity } =
+        req.body as CreateItemSchema;
+
+      const response = await this._service.update(
+        { description, name, price, quantity },
+        itemId,
+      );
+
+      return res.status(httpStatus.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default ItemController;
