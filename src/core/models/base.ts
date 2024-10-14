@@ -4,22 +4,21 @@ import {
   BeforeRemove,
   BeforeUpdate,
   Column,
-  Entity,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
 class BaseModel extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'updated_at' })
+  @Column({ name: 'updated_at', nullable: true })
   updatedAt?: Date;
 
-  @Column({ nullable: true, name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date;
 
   @BeforeInsert()
