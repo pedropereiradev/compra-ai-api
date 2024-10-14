@@ -26,6 +26,18 @@ class ItemController {
       next(error);
     }
   }
+
+  async checkItem(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { itemId } = req.params;
+
+      const response = await this._service.checkItem(itemId);
+
+      return res.status(httpStatus.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default ItemController;

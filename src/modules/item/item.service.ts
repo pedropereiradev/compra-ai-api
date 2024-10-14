@@ -39,6 +39,21 @@ class ItemService {
       throw new InternalError(`An Error Occurred: ${error.message}`);
     }
   }
+
+  async checkItem(itemId: string): Promise<Item> {
+    const item = await this._repository.findOne({
+      where: { id: Number(itemId) },
+    });
+
+    if (!item) {
+      throw new NotFoundError('Item not found');
+    }
+
+    item.checked = !item.checked;
+    await this._repository.save(item);
+
+    return item;
+  }
 }
 
 export default ItemService;

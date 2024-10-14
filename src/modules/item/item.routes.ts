@@ -14,5 +14,6 @@ router.post(
   validateRequest(createItemSchema),
   itemController.create.bind(itemController),
 );
+router.patch('/:itemId', itemController.checkItem.bind(itemController));
 
 export default router;
