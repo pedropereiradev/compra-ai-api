@@ -1,15 +1,27 @@
+import cors from 'cors';
 import express from 'express';
-import userRoutes from './modules/user/user-routes';
+import { errorMiddleware } from './core/middlewares/error.middleware';
+import itemRoutes from './modules/item/item.routes';
+import listRoutes from './modules/list/list.routes';
+import receiptRoutes from './modules/receipt/receipt.routes';
 
-const app = express();
+async function createApp() {
+  const app = express();
 
-app.use(express.json());
+  app.use(express.json());
+  app.use(cors());
 
-app.get('/api', (_req, res) => {
-  res.send('Hello World');
-});
+  app.use(errorMiddleware);
 
-// Routes
-app.use('/api/user', userRoutes);
+  app.get('/api', (_req, res) => {
+    res.send('Hello World');
+  });
 
-export default app;
+  app.use('/api/item', itemRoutes);
+  app.use('/api/list', listRoutes);
+  app.use('/api/receipt', receiptRoutes);
+
+  return app;
+}
+
+export default createApp;
