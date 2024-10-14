@@ -9,6 +9,11 @@ const router = Router();
 const listService = new ListService();
 const listController = new ListController(listService);
 
-router.post('/', validateRequest(createSchema), listController.create);
+router.post(
+  '/',
+  validateRequest(createSchema),
+  listController.create.bind(listController),
+);
+router.get('/items/:listId', listController.findListItems.bind(listController));
 
 export default router;
