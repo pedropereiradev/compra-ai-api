@@ -1,8 +1,12 @@
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { CustomError } from '../errors/custom-error';
 
-export const errorMiddleware = (err: Error, _req: Request, res: Response) => {
-  console.log({ err, res });
+export const errorMiddleware = (
+  err: Error,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
   if (err instanceof CustomError) {
     return res.status(err.status).json({ error: err.message });
   }
