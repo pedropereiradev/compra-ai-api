@@ -1,3 +1,4 @@
+import { authMiddleware } from '@src/core/middlewares/auth.middleware';
 import { validateRequest } from '@src/core/middlewares/validate-request.middleware';
 import { Router } from 'express';
 import ItemController from './item.controller';
@@ -8,6 +9,8 @@ const router = Router();
 
 const itemService = new ItemService();
 const itemController = new ItemController(itemService);
+
+router.use(authMiddleware);
 
 router.post(
   '/:listId',

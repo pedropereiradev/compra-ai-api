@@ -1,3 +1,4 @@
+import { authMiddleware } from '@src/core/middlewares/auth.middleware';
 import { validateRequest } from '@src/core/middlewares/validate-request.middleware';
 import { Router } from 'express';
 import ListController from './list.controller';
@@ -8,6 +9,8 @@ const router = Router();
 
 const listService = new ListService();
 const listController = new ListController(listService);
+
+router.use(authMiddleware);
 
 router.post(
   '/',
