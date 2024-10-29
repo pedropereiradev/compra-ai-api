@@ -1,6 +1,7 @@
-import BaseModel from '@src/core/models/base-model';
-import { Column } from 'typeorm';
+import BaseModel from '@src/core/models/base';
+import { Column, Entity } from 'typeorm';
 
+@Entity({ name: 'users' })
 class User extends BaseModel {
   @Column()
   name: string;
@@ -11,8 +12,11 @@ class User extends BaseModel {
   @Column()
   password: string;
 
-  @Column({ name: 'is_active', default: false })
-  isActive: boolean;
+  @Column({ unique: true })
+  telephone: string;
+
+  @Column({ name: 'pix_key', nullable: true })
+  pixKey?: string;
 }
 
 export default User;
