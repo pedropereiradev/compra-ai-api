@@ -11,7 +11,7 @@ export class CreateOwnerList1730161158067 implements MigrationInterface {
       'lists',
       new TableColumn({
         name: 'owner_id',
-        type: 'uuid',
+        type: 'integer',
       }),
     );
 
