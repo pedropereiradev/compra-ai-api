@@ -13,11 +13,11 @@ export class RelationUsersLists1730160915734 implements MigrationInterface {
         columns: [
           {
             name: 'user_id',
-            type: 'integer',
+            type: 'int',
           },
           {
             name: 'list_id',
-            type: 'integer',
+            type: 'int',
           },
           {
             name: 'created_at',
