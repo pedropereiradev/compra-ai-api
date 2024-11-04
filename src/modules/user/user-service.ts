@@ -7,4 +7,11 @@ export class UserService {
   async list() {
     return this.userRepo.find();
   }
+
+  async getUserInfo(user: User) {
+    return await this.userRepo.findOne({
+      where: { id: user.id },
+      select: ['name', 'email', 'telephone'],
+    });
+  }
 }

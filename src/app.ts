@@ -7,6 +7,7 @@ import authRoutes from './modules/auth/auth.routes';
 import itemRoutes from './modules/item/item.routes';
 import listRoutes from './modules/list/list.routes';
 import receiptRoutes from './modules/receipt/receipt.routes';
+import userRoutes from './modules/user/user-routes';
 
 async function createApp() {
   const app = express();
@@ -23,6 +24,7 @@ async function createApp() {
   app.use('/api/list', listRoutes);
   app.use('/api/receipt', receiptRoutes);
   app.use('/api/auth', authRoutes);
+  app.use('/api/user', userRoutes);
 
   app.use((req: Request, res: Response) => {
     console.log('NOT FOUND ROUTE: ', req.path);
