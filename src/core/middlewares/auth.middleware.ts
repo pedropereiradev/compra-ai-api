@@ -18,6 +18,7 @@ export const authMiddleware = (
     return res.status(403).json({ error: 'Forbidden' });
   }
 
+  //@ts-ignore
   req.user = decoded;
   next();
 };
