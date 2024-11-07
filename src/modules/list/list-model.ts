@@ -1,15 +1,9 @@
 import BaseModel from '@src/core/models/base';
 import { currencyTransformer } from '@src/core/utils/currency-transformer';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import Item from '../item/item-model';
 import User from '../user/user-model';
+import UserList from './user-list-model';
 
 @Entity({ name: 'lists' })
 class List extends BaseModel {
@@ -36,7 +30,7 @@ class List extends BaseModel {
   maxSpend?: number | null;
 
   @Column({ name: 'owner_id' })
-  ownerId: string;
+  ownerId: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'owner_id' })
@@ -49,11 +43,11 @@ class List extends BaseModel {
   )
   items?: Item[];
 
-  @ManyToMany(
-    () => User,
-    (user) => user.lists,
+  @OneToMany(
+    () => UserList,
+    (userList) => userList.list,
   )
-  users?: User[];
+  userLists: UserList[];
 }
 
 export default List;
