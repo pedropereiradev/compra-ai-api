@@ -11,7 +11,7 @@ export class UserService {
   async getUserInfo(user: User) {
     return await this.userRepo.findOne({
       where: { id: user.id },
-      select: ['name', 'email', 'telephone'],
+      select: ['name', 'email', 'telephone', 'pixKey'],
     });
   }
 }
