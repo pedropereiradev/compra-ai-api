@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
+import type { JwtPayload } from 'jsonwebtoken';
 import { verifyToken } from '../utils/jwt';
 
 export const authMiddleware = (
@@ -12,13 +13,13 @@ export const authMiddleware = (
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const decoded = verifyToken(token);
+  const decoded = verifyToken(token) as JwtPayload | null;
 
   if (!decoded) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
-  //@ts-ignore
-  req.user = decoded;
+  // @ts-ignore
+  req.user = decoded as Express.Request['user'];
   next();
 };
