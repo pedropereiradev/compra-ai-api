@@ -16,11 +16,13 @@ jobs:
       - name: Set up SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host vps\n\tHostName 145.223.31.242\n\tUser usuario\n\tIdentityFile ~/.ssh/id_ed25519\n\tStrictHostKeyChecking no" >> ~/.ssh/config
+          echo -e "Host vps\n\tHostName $SSH_HOST\n\tUser $SSH_USER\n\tIdentityFile ~/.ssh/id_ed25519\n\tStrictHostKeyChecking no" >> ~/.ssh/config
           chmod 700 ~/.ssh
 
       - name: Upload .env file to VPS
