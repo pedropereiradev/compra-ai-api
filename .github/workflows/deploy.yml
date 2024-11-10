@@ -18,9 +18,9 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          echo -e "Host vps\n\tHostName 145.223.31.242\n\tUser usuario\n\tIdentityFile ~/.ssh/deploy_key" >> ~/.ssh/config
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo -e "Host vps\n\tHostName 145.223.31.242\n\tUser usuario\n\tIdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
 
       - name: Upload .env file to VPS
         env:
@@ -34,20 +34,20 @@ jobs:
           DB_LOGGING: ${{ secrets.DB_LOGGING }}
         run: |
           ssh vps '
-            echo "NODE_ENV=$NODE_ENV" > /caminho/do/projeto/.env &&
-            echo "DB_HOST=$DB_HOST" >> /caminho/do/projeto/.env &&
-            echo "DB_PORT=$DB_PORT" >> /caminho/do/projeto/.env &&
-            echo "DB_USER=$DB_USER" >> /caminho/do/projeto/.env &&
-            echo "DB_PASSWORD=$DB_PASSWORD" >> /caminho/do/projeto/.env &&
-            echo "DB_NAME=$DB_NAME" >> /caminho/do/projeto/.env &&
-            echo "DB_SYNCHRONIZE=$DB_SYNCHRONIZE" >> /caminho/do/projeto/.env &&
-            echo "DB_LOGGING=$DB_LOGGING" >> /caminho/do/projeto/.env
+            echo "NODE_ENV=$NODE_ENV" > /projects/compra-ai-api.env &&
+            echo "DB_HOST=$DB_HOST" >> /projects/compra-ai-api.env &&
+            echo "DB_PORT=$DB_PORT" >> /projects/compra-ai-api.env &&
+            echo "DB_USER=$DB_USER" >> /projects/compra-ai-api.env &&
+            echo "DB_PASSWORD=$DB_PASSWORD" >> /projects/compra-ai-api.env &&
+            echo "DB_NAME=$DB_NAME" >> /projects/compra-ai-api.env &&
+            echo "DB_SYNCHRONIZE=$DB_SYNCHRONIZE" >> /projects/compra-ai-api.env &&
+            echo "DB_LOGGING=$DB_LOGGING" >> /projects/compra-ai-api.env
           '
 
       - name: Deploy with Docker Compose
         run: |
           ssh vps '
-            cd /projects/projeto-integrador-api &&
+            cd /projects/compra-ai-api &&
             git pull origin main &&
             docker-compose down &&
             docker-compose up -d --build
