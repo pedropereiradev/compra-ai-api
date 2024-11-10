@@ -36,9 +36,18 @@ jobs:
           DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
           DB_LOGGING: ${{ secrets.DB_LOGGING }}
         run: |
-          ssh vps '
-            echo "NODE_ENV=$NODE_ENV\nDB_HOST=$DB_HOST\nDB_PORT=$DB_PORT\nDB_USER=$DB_USER\nDB_PASSWORD=$DB_PASSWORD\nDB_NAME=$DB_NAME\nDB_SYNCHRONIZE=$DB_SYNCHRONIZE\nDB_LOGGING=$DB_LOGGING" > /root/projects/compra-ai-api/.env
-          '
+          ssh vps "echo 'NODE_ENV=${NODE_ENV}
+          DB_HOST=${DB_HOST}
+          DB_PORT=${DB_PORT}
+          DB_USER=${DB_USER}
+          DB_PASSWORD=${DB_PASSWORD}
+          DB_NAME=${DB_NAME}
+          DB_SYNCHRONIZE=${DB_SYNCHRONIZE}
+          DB_LOGGING=${DB_LOGGING}' > /root/projects/compra-ai-api/.env"
+
+      - name: Verify .env file
+        run: |
+          ssh vps "cat /root/projects/compra-ai-api/.env"
 
       - name: Deploy with Docker Compose
         run: |
