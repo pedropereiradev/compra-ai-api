@@ -1,14 +1,52 @@
 version: '3.1'
+name: compra-ai
 services:
+  app:
+    container_name: compra-ai-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE}
+      DB_LOGGING: ${DB_LOGGING}
+    networks:
+      - compra-ai-network
+    restart: unless-stopped
+
   db:
     image: postgres:13
+    container_name: compra-ai-db
+    restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: lista-compras-app
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - compra-ai-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  compra-ai-network:
+    driver: bridge
+
 volumes:
   postgres:
