@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import * as dotenv from 'dotenv';
 import 'reflect-metadata';
 import createApp from './app';

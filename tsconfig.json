@@ -12,8 +12,7 @@
     "paths": {
       "@src/*": ["./*"],
       "@config/*": ["./core/config/*"],
-      "@db/*": ["./core/database/*"],
-      "@middleware/*": ["./core/middleware/*"]
+      "@db/*": ["./core/database/*"]
     }
   },
   "include": ["src/**/*", "src/*"],

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "pnpm typeorm migration:create",
     "migration:generate": "pnpm typeorm migration:generate",
@@ -29,6 +29,7 @@
     "express": "^4.19.2",
     "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.4",
     "pg": "^8.12.0",
@@ -51,5 +52,10 @@
     "husky": "^9.1.5",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4"
+  },
+  "_moduleAliases": {
+    "@src": "dist",
+    "@config": "dist/core/config",
+    "@db": "dist/core/database"
   }
 }
