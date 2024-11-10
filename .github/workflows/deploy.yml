@@ -1,0 +1,54 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo -e "Host vps\n\tHostName 145.223.31.242\n\tUser usuario\n\tIdentityFile ~/.ssh/deploy_key" >> ~/.ssh/config
+
+      - name: Upload .env file to VPS
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
+          DB_LOGGING: ${{ secrets.DB_LOGGING }}
+        run: |
+          ssh vps '
+            echo "NODE_ENV=$NODE_ENV" > /caminho/do/projeto/.env &&
+            echo "DB_HOST=$DB_HOST" >> /caminho/do/projeto/.env &&
+            echo "DB_PORT=$DB_PORT" >> /caminho/do/projeto/.env &&
+            echo "DB_USER=$DB_USER" >> /caminho/do/projeto/.env &&
+            echo "DB_PASSWORD=$DB_PASSWORD" >> /caminho/do/projeto/.env &&
+            echo "DB_NAME=$DB_NAME" >> /caminho/do/projeto/.env &&
+            echo "DB_SYNCHRONIZE=$DB_SYNCHRONIZE" >> /caminho/do/projeto/.env &&
+            echo "DB_LOGGING=$DB_LOGGING" >> /caminho/do/projeto/.env
+          '
+
+      - name: Deploy with Docker Compose
+        run: |
+          ssh vps '
+            cd /projects/projeto-integrador-api &&
+            git pull origin main &&
+            docker-compose down &&
+            docker-compose up -d --build
+          '
