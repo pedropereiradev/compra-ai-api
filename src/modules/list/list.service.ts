@@ -65,7 +65,7 @@ class ListService {
     try {
       return await this._repository
         .createQueryBuilder('list')
-        .leftJoinAndSelect('list.users', 'users')
+        .leftJoinAndSelect('list.userLists', 'users')
         .where('list.ownerId = :userId', { userId })
         .orWhere('users.id = :userId', { userId })
         .orderBy('list.createdAt', 'DESC')
