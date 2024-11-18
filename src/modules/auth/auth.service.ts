@@ -1,10 +1,19 @@
 import { AppDataSource } from '@src/core/config/database/data-source';
 import { BadRequestError } from '@src/core/errors/bad-request';
-import { generateAccessToken } from '@src/core/utils/jwt';
+import { UnauthorizedError } from '@src/core/errors/unathorized';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from '@src/core/utils/jwt';
 import { hashPassword, validatePassword } from '@src/core/utils/password';
 import type { Repository } from 'typeorm';
 import User from '../user/user-model';
-import type { SignInSchema, SignupSchema } from './auth.request';
+import type {
+  RefreshTokensSchema,
+  SignInSchema,
+  SignupSchema,
+} from './auth.request';
 
 export class AuthService {
   private _repository: Repository<User>;
@@ -62,7 +71,22 @@ export class AuthService {
     }
 
     const accessToken = generateAccessToken(user.id);
-    const refreshToken = generateAccessToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
+  async refreshToken({ refreshToken }: RefreshTokensSchema) {
+    const payload = verifyRefreshToken(refreshToken);
+
+    if (!payload) {
+      throw new UnauthorizedError('Invalid refresh token');
+    }
+
+    const accessToken = generateAccessToken(payload.id);
 
     return {
       accessToken,

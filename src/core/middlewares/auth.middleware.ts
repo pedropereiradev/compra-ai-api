@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import type { JwtPayload } from 'jsonwebtoken';
-import { verifyToken } from '../utils/jwt';
+import { verifyAccessToken } from '../utils/jwt';
 
 export const authMiddleware = (
   req: Request,
@@ -10,13 +11,15 @@ export const authMiddleware = (
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res
+      .status(httpStatus.UNAUTHORIZED)
+      .json({ error: 'No token provided' });
   }
 
-  const decoded = verifyToken(token) as JwtPayload | null;
+  const decoded = verifyAccessToken(token) as JwtPayload | null;
 
   if (!decoded) {
-    return res.status(403).json({ error: 'Forbidden' });
+    return res.status(httpStatus.FORBIDDEN).json({ error: 'Invalid token' });
   }
 
   // @ts-ignore

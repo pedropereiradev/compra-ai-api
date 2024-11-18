@@ -1,6 +1,10 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import type { SignInSchema, SignupSchema } from './auth.request';
+import type {
+  RefreshTokensSchema,
+  SignInSchema,
+  SignupSchema,
+} from './auth.request';
 import type { AuthService } from './auth.service';
 
 export default class AuthController {
@@ -34,6 +38,18 @@ export default class AuthController {
       const { email, password } = req.body as SignInSchema;
 
       const response = await this._service.login({ email, password });
+
+      return res.status(httpStatus.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { refreshToken } = req.body as RefreshTokensSchema;
+
+      const response = await this._service.refreshToken({ refreshToken });
 
       return res.status(httpStatus.OK).json(response);
     } catch (error) {
