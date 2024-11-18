@@ -35,6 +35,8 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
           DB_LOGGING: ${{ secrets.DB_LOGGING }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          JWT_REFRESH_SECRET_KEY: ${{ secrets.JWT_REFRESH_SECRET_KEY }}
         run: |
           ssh vps "echo 'NODE_ENV=${NODE_ENV}
           DB_HOST=${DB_HOST}
@@ -43,6 +45,8 @@ jobs:
           DB_PASSWORD=${DB_PASSWORD}
           DB_NAME=${DB_NAME}
           DB_SYNCHRONIZE=${DB_SYNCHRONIZE}
+          JWT_SECRET_KEY=${JWT_SECRET_KEY}
+          JWT_REFRESH_SECRET_KEY=${JWT_REFRESH_SECRET_KEY}
           DB_LOGGING=${DB_LOGGING}' > /root/projects/compra-ai-api/.env"
 
       - name: Verify .env file
