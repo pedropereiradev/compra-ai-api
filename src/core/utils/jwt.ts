@@ -5,11 +5,11 @@ const JWT_REFRESH_SECRET_KEY =
   process.env.JWT_REFRESH_SECRET_KEY || 'jwt_refresh_secret';
 
 export const generateAccessToken = (userId: number) => {
-  return jwt.sign({ id: userId }, JWT_SECRET_KEY, { expiresIn: '30m' });
+  return jwt.sign({ id: userId }, JWT_SECRET_KEY, { expiresIn: '30 days' });
 };
 
 export const generateRefreshToken = (userId: number) => {
-  return jwt.sign({ id: userId }, JWT_REFRESH_SECRET_KEY, { expiresIn: '30d' });
+  return jwt.sign({ id: userId }, JWT_REFRESH_SECRET_KEY, { expiresIn: '1y' });
 };
 
 export const verifyAccessToken = (token: string): JwtPayload | null => {
