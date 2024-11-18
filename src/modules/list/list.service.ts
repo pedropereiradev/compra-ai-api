@@ -46,7 +46,7 @@ class ListService {
     try {
       return await this._repository
         .createQueryBuilder('list')
-        .leftJoinAndSelect('list.users', 'users')
+        .leftJoinAndSelect('list.userLists', 'users')
         .leftJoinAndSelect('list.items', 'items')
         .leftJoinAndSelect('list.owner', 'owner')
         .where('list.ownerId = :userId', { userId })
