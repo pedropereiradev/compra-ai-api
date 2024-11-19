@@ -16,8 +16,8 @@ async function createApp() {
   app.use(cors());
   app.use(morgan('dev'));
 
-  app.get('/api', (_req, res) => {
-    res.send('Hello World');
+  app.get('/api/ping', (_req, res) => {
+    res.status(httpStatus.OK).send({ ping: 'pong' });
   });
 
   app.use('/api/item', itemRoutes);
