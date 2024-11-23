@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --respawn src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
@@ -17,7 +17,8 @@
     "db:start": "docker start projeto-integrador",
     "prepare": "husky",
     "format": "pnpm biome format --write ./src",
-    "format:check": "pnpm biome format ./src"
+    "format:check": "pnpm biome format ./src",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up --build -d"
   },
   "keywords": [],
   "author": "",
@@ -29,11 +30,15 @@
     "express": "^4.19.2",
     "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
+    "multer": "1.4.5-lts.1",
     "nodemon": "^3.1.4",
+    "openai": "^4.71.1",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
+    "sharp": "^0.33.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typeorm": "^0.3.20",
@@ -48,14 +53,13 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.5.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
     "husky": "^9.1.5",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4"
   },
-  "_moduleAliases": {
-    "@src": "dist",
-    "@config": "dist/core/config",
-    "@db": "dist/core/database"
-  }
+  "packageManager": "pnpm@9.13.2+sha512.88c9c3864450350e65a33587ab801acf946d7c814ed1134da4a924f6df5a2120fd36b46aab68f7cd1d413149112d53c7db3a4136624cfd00ff1846a0c6cef48a"
 }
