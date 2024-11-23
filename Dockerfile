@@ -1,24 +1,31 @@
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY pnpm-lock.yaml package.json ./
 COPY tsconfig.json ./
-RUN npm install
+
+RUN pnpm install
 
 COPY . .
-RUN npm run build
 
-FROM node:22-alpine AS runner
+RUN pnpm run build
+
+FROM node:20-alpine AS runner
 WORKDIR /usr/src/app
 
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/package*.json ./
+COPY --from=builder /usr/src/app/package.json ./
+COPY --from=builder /usr/src/app/pnpm-lock.yaml ./
 COPY --from=builder /usr/src/app/tsconfig.json ./
 
-RUN npm install
+RUN pnpm install
 
 USER node
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
