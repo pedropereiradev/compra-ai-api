@@ -22,6 +22,7 @@ services:
       DB_LOGGING: ${DB_LOGGING}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     networks:
       - compra-ai-network
     restart: unless-stopped
