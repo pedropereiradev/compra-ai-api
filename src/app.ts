@@ -6,7 +6,7 @@ import { errorMiddleware } from './core/middlewares/error.middleware';
 import authRoutes from './modules/auth/auth.routes';
 import itemRoutes from './modules/item/item.routes';
 import listRoutes from './modules/list/list.routes';
-// import receiptRoutes from './modules/receipt/receipt.routes';
+import receiptRoutes from './modules/receipt/receipt.routes';
 import userRoutes from './modules/user/user-routes';
 
 async function createApp() {
@@ -22,7 +22,7 @@ async function createApp() {
 
   app.use('/api/item', itemRoutes);
   app.use('/api/list', listRoutes);
-  // app.use('/api/receipt', receiptRoutes);
+  app.use('/api/receipt', receiptRoutes);
   app.use('/api/auth', authRoutes);
   app.use('/api/user', userRoutes);
 
