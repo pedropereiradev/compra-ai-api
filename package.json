@@ -18,12 +18,13 @@
     "prepare": "husky",
     "format": "pnpm biome format --write ./src",
     "format:check": "pnpm biome format ./src",
-    "docker:dev": "docker-compose -f docker-compose.dev.yml up --build -d"
+    "docker:dev": "docker-compose -f docker-compose-dev.yml up --build -d"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
