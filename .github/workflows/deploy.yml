@@ -38,6 +38,9 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_REFRESH_SECRET_KEY: ${{ secrets.JWT_REFRESH_SECRET_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_API_BASE_URL: ${{ secrets.BREVO_API_BASE_URL }}
+          BREVO_NO_REPLY_EMAIL: ${{ secrets.BREVO_NO_REPLY_EMAIL }}
         run: |
           ssh vps "echo 'NODE_ENV=${NODE_ENV}
           DB_HOST=${DB_HOST}
@@ -49,6 +52,9 @@ jobs:
           JWT_SECRET_KEY=${JWT_SECRET_KEY}
           JWT_REFRESH_SECRET_KEY=${JWT_REFRESH_SECRET_KEY}
           OPENAI_API_KEY=${OPENAI_API_KEY}
+          BREVO_API_KEY=${BREVO_API_KEY}
+          BREVO_API_BASE_URL=${BREVO_API_BASE_URL}
+          BREVO_NO_REPLY_EMAIL=${BREVO_NO_REPLY_EMAIL}
           DB_LOGGING=${DB_LOGGING}' > /root/projects/compra-ai-api/.env"
 
       - name: Verify .env file

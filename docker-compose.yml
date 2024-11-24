@@ -23,6 +23,9 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      BREVO_API_KEY: ${BREVO_API_KEY}
+      BREVO_API_BASE_URL: ${BREVO_API_BASE_URL}
+      BREVO_NO_REPLY_EMAIL: ${BREVO_NO_REPLY_EMAIL}
     networks:
       - compra-ai-network
     restart: unless-stopped
