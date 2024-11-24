@@ -21,7 +21,7 @@ export const inviteSchema = z.object({
 });
 
 export const acceptInviteSchema = z.object({
-  inviteId: z.string(),
+  inviteId: z.number(),
   accepted: z.boolean(),
 });
 

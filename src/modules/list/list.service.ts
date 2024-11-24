@@ -205,9 +205,9 @@ class ListService {
       throw new NotFoundError('User not found');
     }
 
-    if (user.telephone !== invitation.telephone) {
+    if (user.email !== invitation.email) {
       throw new BadRequestError(
-        'This invitation was sent to a different telephone',
+        'This invitation was sent to a different email',
       );
     }
 
@@ -218,12 +218,14 @@ class ListService {
 
     await this._invitationRepository.save(invitation);
 
-    const userList = this._userListRepository.create({
-      userId,
-      listId: invitation.listId,
-    });
+    if (accept) {
+      const userList = new UserList();
 
-    await this._repository.save(userList);
+      userList.userId = userId;
+      userList.listId = invitation.listId;
+
+      await this._userListRepository.save(userList);
+    }
 
     return invitation;
   }
@@ -235,7 +237,7 @@ class ListService {
 
     return await this._invitationRepository.find({
       where: {
-        telephone: user.telephone,
+        email: user.email,
         status: InvitationStatus.PENDING,
       },
       relations: ['list', 'invitedBy'],
