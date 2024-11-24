@@ -11,8 +11,11 @@ export enum InvitationStatus {
 
 @Entity({ name: 'list_invitations' })
 class ListInvitation extends BaseModel {
+  @Column({ nullable: true })
+  telephone?: string;
+
   @Column()
-  telephone: string;
+  email: string;
 
   @Column({ name: 'list_id' })
   listId: number;

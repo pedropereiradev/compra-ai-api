@@ -17,7 +17,7 @@ export const updateSchema = z.object({
 });
 
 export const inviteSchema = z.object({
-  telephone: z.string().min(11).max(11),
+  email: z.string().email(),
 });
 
 export const acceptInviteSchema = z.object({

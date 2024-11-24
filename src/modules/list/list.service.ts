@@ -3,6 +3,7 @@ import { BadRequestError } from '@src/core/errors/bad-request';
 import { ForbiddenError } from '@src/core/errors/forbidden';
 import { InternalError } from '@src/core/errors/internal';
 import { NotFoundError } from '@src/core/errors/not-found';
+import { BrevoPort } from '@src/core/ports/brevo/brevo';
 import type { Repository } from 'typeorm';
 import User from '../user/user-model';
 import ListInvitation, { InvitationStatus } from './invitation-model';
@@ -16,11 +17,15 @@ class ListService {
   private _userListRepository: Repository<UserList>;
   private _invitationRepository: Repository<ListInvitation>;
 
+  private _brevoService: BrevoPort;
+
   constructor() {
     this._repository = AppDataSource.getRepository(List);
     this._userRepository = AppDataSource.getRepository(User);
     this._userListRepository = AppDataSource.getRepository(UserList);
     this._invitationRepository = AppDataSource.getRepository(ListInvitation);
+
+    this._brevoService = new BrevoPort();
   }
 
   async create(userId: number, payload: CreateSchema): Promise<List> {
@@ -127,7 +132,7 @@ class ListService {
     }
   }
 
-  async inviteToList(listId: string, invitedById: number, telephone: string) {
+  async inviteToList(listId: string, invitedById: number, email: string) {
     const list = await this._repository.findOne({
       where: { id: Number(listId), ownerId: invitedById },
     });
@@ -139,7 +144,7 @@ class ListService {
     const existingInvitation = await this._invitationRepository.findOne({
       where: {
         listId: Number(listId),
-        telephone,
+        email,
         status: InvitationStatus.PENDING,
       },
     });
@@ -149,11 +154,11 @@ class ListService {
     }
 
     const existingUser = await this._userRepository.findOne({
-      where: { telephone },
+      where: { email },
     });
 
     const invitation = this._invitationRepository.create({
-      telephone,
+      email,
       listId: Number(listId),
       invitedById,
       userId: existingUser?.id,
@@ -162,34 +167,15 @@ class ListService {
 
     await this._invitationRepository.save(invitation);
 
-    if (existingUser) {
-      // @todo - Send invite to user
-      //
-      //
-      // await sendEmail({
-      //     to: email,
-      //     subject: 'You've been invited to join a list',
-      //     template: 'existing-user-invitation',
-      //     data: {
-      //       listName: list.name,
-      //       invitationId: invitation.id,
-      //     },
-      //   });
-    } else {
-      // @todo - Send invite to join app
-      //
-      //
-      // await sendEmail({
-      //     to: email,
-      //     subject: 'You've been invited to join our platform',
-      //     template: 'new-user-invitation',
-      //     data: {
-      //       listName: list.name,
-      //       invitationId: invitation.id,
-      //       signupUrl: `${process.env.FRONTEND_URL}/signup?invitation=${invitation.id}`,
-      //     },
-      //   });
-    }
+    const invintingUser = await this._userRepository.findOne({
+      where: { id: invitedById },
+    });
+
+    await this._brevoService.sendInvitationEmail({
+      invitedBy: invintingUser.name,
+      name: existingUser?.name || email.split('@')[0],
+      to: email,
+    });
 
     return invitation;
   }

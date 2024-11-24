@@ -97,13 +97,9 @@ class ListController {
       // @ts-ignore
       const userId = req.user.id;
       const { listId } = req.params;
-      const { telephone } = req.body as InviteSchema;
+      const { email } = req.body as InviteSchema;
 
-      const response = await this._service.inviteToList(
-        listId,
-        userId,
-        telephone,
-      );
+      const response = await this._service.inviteToList(listId, userId, email);
 
       return res.status(httpStatus.CREATED).json(response);
     } catch (error) {
