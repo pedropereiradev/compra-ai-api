@@ -12,6 +12,9 @@ COPY . .
 
 RUN pnpm run build
 
+RUN mkdir -p dist/core/ports/brevo/templates && \
+    cp -r src/core/ports/brevo/templates/*.html dist/core/ports/brevo/templates
+
 FROM node:20-alpine AS runner
 WORKDIR /usr/src/app
 
