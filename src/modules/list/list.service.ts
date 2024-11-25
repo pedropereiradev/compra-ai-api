@@ -54,9 +54,10 @@ class ListService {
         .leftJoinAndSelect('list.userLists', 'users')
         .leftJoinAndSelect('list.items', 'items')
         .leftJoinAndSelect('list.owner', 'owner')
-        .where('list.ownerId = :userId', { userId })
-        .orWhere('users.id = :userId', { userId })
-        .andWhere('list.id = :listId', { listId })
+        .where('list.id = :listId', { listId })
+        .andWhere('(list.ownerId = :userId OR users.userId = :userId)', {
+          userId,
+        })
         .orderBy('list.createdAt', 'DESC')
         .addOrderBy('items.name', 'ASC')
         .getOne();
