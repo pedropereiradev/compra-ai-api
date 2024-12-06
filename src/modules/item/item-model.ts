@@ -23,6 +23,9 @@ class Item extends BaseModel {
   @ManyToOne(
     () => List,
     (list) => list.items,
+    {
+      onDelete: 'CASCADE',
+    },
   )
   @JoinColumn({ name: 'list_id' })
   list: List;

@@ -39,7 +39,7 @@ class List extends BaseModel {
   @OneToMany(
     () => Item,
     (item) => item.list,
-    { nullable: true },
+    { nullable: true, cascade: true },
   )
   items?: Item[];
 

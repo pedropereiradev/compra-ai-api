@@ -33,7 +33,7 @@ class ListInvitation extends BaseModel {
   })
   status: InvitationStatus;
 
-  @ManyToOne(() => List)
+  @ManyToOne(() => List, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'list_id' })
   list: List;
 
