@@ -14,15 +14,13 @@ class ReceiptService {
 
   async create(userId: number, files: UploadedFile[]) {
     const base64Images = files.map((file) => file.buffer.toString('base64'));
-    // const response = await this._openAiPort.analyzeReceipt(base64Images);
-    const response = await this._openAiPort.mockedAnalyzeReceipt(base64Images);
+    const response = await this._openAiPort.analyzeReceipt(base64Images);
 
     const analysedReceipt = response.choices[0].message.content;
 
     return {
       userId,
-      response: parseJsonString(analysedReceipt),
-      completeResponse: response,
+      payload: parseJsonString(analysedReceipt),
     };
   }
 }

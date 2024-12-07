@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { analyseReceiptPrompt } from './helpers/prompts';
 import { completionUsingGpt4o } from './mocks';
 
 class OpenAiPort {
@@ -36,13 +37,7 @@ class OpenAiPort {
           content: [
             {
               type: 'text',
-              text:
-                'Você é um assistente que processa notas fiscais. ' +
-                'Extraia as seguintes informações: ' +
-                'nome do produto, quantidade, preço total do produto, ' +
-                'preço por unidade, unidade de medida, ' +
-                'preço total da compra, data da compra. ' +
-                'Formate a saída como um JSON.',
+              text: analyseReceiptPrompt,
             },
           ],
         },
