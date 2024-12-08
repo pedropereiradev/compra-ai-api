@@ -14,15 +14,15 @@ Retorne os dados exatamente nesta estrutura JSON:
 {
   "produtos": [
     {
-      "nome": string,
-      "quantidade": number,
-      "preco_total": number,
-      "preco_por_unidade": number,
-      "unidade_medida": string
+      "name": string,
+      "quantity": number,
+      "price": number,
+      "unitPrice": number,
+      "measurementUnit": string
     }
   ],
-  "preco_total_compra": number,
-  "data_compra": string
+  "listTotalPrice": number,
+  "purchaseDate": string
 }
 
 Regras importantes:
@@ -36,59 +36,3 @@ Regras importantes:
 8. Mantenha os nomes dos produtos como estão na nota fiscal
 9. Use ponto como separador decimal
 `;
-
-// export const AnalyseReceiptPrompt = `
-//             Você é um assistente que processa notas fiscais e retorna os dados extraídos em formato JSON.
-//             Siga as seguintes instruções:
-//             - Extraia os campos:
-//               - nome
-// do produto,
-//               - quantidade,
-//               - preço total
-// do produto,
-//               - preço por
-// unidade, -unidade;
-// de;
-// medida, -preço;
-// total;
-// da;
-// compra, -data;
-// da;
-// compra.
-//             - Organize as informações
-// no;
-// seguinte;
-// formato;
-// de;
-// saída:
-// \`\`\`json
-// {
-//   ('produtos');
-//   : [
-//   ('nome')
-//   : "Nome do Produto",
-//                   "quantidade": Quantidade (número inteiro ou decimal),
-//                   "preco_total": Preço total
-//   do produto (número decimal),
-//                   "preco_por_unidade"
-//   : Preço por unidade (número decimal),
-//                   "unidade_medida": "Unidade de medida (ex: UN, PT, etc.)"
-//   ],
-//               "preco_total_compra": Preço total da compra (número decimal),
-//               "data_compra": "DD/MM/AAAA"
-// }
-// \`\`\`
-//             - Se algum dado não estiver claro, insira \`null\` no campo correspondente.
-//             - Certifique-se de validar a estrutura
-// do JSON para
-// evitar;
-// erros.
-//             - Não
-// insira;
-// nenhuma;
-// explicação;
-// no;
-// retorno, apenas;
-// o;
-// JSON.
-//           `;
