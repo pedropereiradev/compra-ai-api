@@ -25,7 +25,23 @@ export const acceptInviteSchema = z.object({
   accepted: z.boolean(),
 });
 
+export const overrideListSchema = z.object({
+  receiptItems: z.array(
+    z.object({
+      name: z.string().min(1),
+      quantity: z.number().optional(),
+      price: z.number().min(0),
+      unitPrice: z.number().min(0).optional(),
+      description: z.string().optional(),
+      measurementUnit: z.string().optional(),
+    }),
+  ),
+  listTotalPrice: z.number().optional(),
+  purchaseDate: z.string().optional(),
+});
+
 export type CreateSchema = z.infer<typeof createSchema>;
 export type InviteSchema = z.infer<typeof inviteSchema>;
 export type AcceptInviteSchema = z.infer<typeof acceptInviteSchema>;
 export type UpdateSchema = z.infer<typeof updateSchema>;
+export type OverrideListSchema = z.infer<typeof overrideListSchema>;

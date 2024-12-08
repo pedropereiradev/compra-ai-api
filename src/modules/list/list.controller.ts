@@ -4,6 +4,7 @@ import type {
   AcceptInviteSchema,
   CreateSchema,
   InviteSchema,
+  OverrideListSchema,
 } from './list.request';
 import type ListService from './list.service';
 
@@ -131,6 +132,25 @@ class ListController {
       const userId = req.user.id;
 
       const response = await this._service.getPendingInvitations(userId);
+
+      return res.status(httpStatus.OK).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async finishList(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { listId } = req.params;
+      const receiptItems = req.body as OverrideListSchema;
+      // @ts-ignore
+      const userId = req.user.id;
+
+      const response = await this._service.finishList(
+        listId,
+        userId,
+        receiptItems,
+      );
 
       return res.status(httpStatus.OK).json(response);
     } catch (error) {

@@ -14,11 +14,22 @@ class Item extends BaseModel {
   @Column({ type: 'int', transformer: currencyTransformer, nullable: true })
   price?: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'decimal', nullable: true })
   quantity?: number;
 
   @Column({ type: 'boolean', default: false })
   checked: boolean;
+
+  @Column({
+    name: 'unit_price',
+    type: 'int',
+    transformer: currencyTransformer,
+    nullable: true,
+  })
+  unitPrice?: number;
+
+  @Column({ name: 'measurement_unit', nullable: true })
+  measurementUnit?: string;
 
   @ManyToOne(
     () => List,

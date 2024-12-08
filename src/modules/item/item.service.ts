@@ -3,6 +3,7 @@ import { InternalError } from '@src/core/errors/internal';
 import { NotFoundError } from '@src/core/errors/not-found';
 import type { Repository } from 'typeorm';
 import List from '../list/list-model';
+import type { OverrideListSchema } from '../list/list.request';
 import Item from './item-model';
 import type { CreateItemSchema } from './item.request';
 
@@ -86,6 +87,53 @@ class ItemService {
     await this._repository.save(item);
 
     return item;
+  }
+
+  async deleteAllItemsFromList(listId: number): Promise<void> {
+    const items = await this._repository.find({
+      where: { list: { id: listId } },
+    });
+
+    if (!items) {
+      throw new NotFoundError('Items not found');
+    }
+
+    await this._repository.remove(items);
+
+    return;
+  }
+
+  async createManyFromReceipt(
+    { receiptItems }: OverrideListSchema,
+    listId: string,
+  ): Promise<Item[]> {
+    const list = await this._listRepository.findOne({
+      where: { id: Number(listId) },
+    });
+
+    if (!list) {
+      throw new NotFoundError('List not found');
+    }
+
+    const items = await Promise.all(
+      receiptItems.map(async (item) => {
+        console.log('>>>ITEM', item);
+        const createdItem = this._repository.create({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          checked: true,
+          measurementUnit: item.measurementUnit,
+          unitPrice: item.unitPrice,
+          description: item.description,
+          list,
+        });
+
+        return await this._repository.save(createdItem);
+      }),
+    );
+
+    return items;
   }
 }
 

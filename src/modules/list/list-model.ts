@@ -29,6 +29,12 @@ class List extends BaseModel {
   })
   maxSpend?: number | null;
 
+  @Column({ name: 'is_finished', type: 'boolean', default: false })
+  isFinished: boolean;
+
+  @Column({ name: 'purchase_date', type: 'timestamp', nullable: true })
+  purchaseDate?: Date;
+
   @Column({ name: 'owner_id' })
   ownerId: number;
 

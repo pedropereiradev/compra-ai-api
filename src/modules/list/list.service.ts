@@ -4,11 +4,13 @@ import { ForbiddenError } from '@src/core/errors/forbidden';
 import { InternalError } from '@src/core/errors/internal';
 import { NotFoundError } from '@src/core/errors/not-found';
 import { BrevoPort } from '@src/core/ports/brevo/brevo';
+import { convertDateStringToTimestamp } from '@src/core/utils/convert-string-date';
 import type { Repository } from 'typeorm';
+import ItemService from '../item/item.service';
 import User from '../user/user-model';
 import ListInvitation, { InvitationStatus } from './invitation-model';
 import List from './list-model';
-import type { CreateSchema } from './list.request';
+import type { CreateSchema, OverrideListSchema } from './list.request';
 import UserList from './user-list-model';
 
 class ListService {
@@ -18,6 +20,7 @@ class ListService {
   private _invitationRepository: Repository<ListInvitation>;
 
   private _brevoService: BrevoPort;
+  private _itemService: ItemService;
 
   constructor() {
     this._repository = AppDataSource.getRepository(List);
@@ -26,6 +29,7 @@ class ListService {
     this._invitationRepository = AppDataSource.getRepository(ListInvitation);
 
     this._brevoService = new BrevoPort();
+    this._itemService = new ItemService();
   }
 
   async create(userId: number, payload: CreateSchema): Promise<List> {
@@ -243,6 +247,45 @@ class ListService {
       },
       relations: ['list', 'invitedBy'],
     });
+  }
+
+  async finishList(
+    listId: string,
+    userId: number,
+    payload: OverrideListSchema,
+  ) {
+    const list = await this._repository.findOne({
+      where: { id: Number(listId), ownerId: userId },
+    });
+
+    if (!list) {
+      throw new NotFoundError('List not found or you do not have permission');
+    }
+
+    console.log('>>>PAYLOAD', payload);
+
+    await this._itemService.deleteAllItemsFromList(Number(listId));
+
+    const items = await this._itemService.createManyFromReceipt(
+      payload,
+      listId,
+    );
+
+    list.isFinished = true;
+    list.totalPrice = payload.listTotalPrice;
+    list.purchaseDate = convertDateStringToTimestamp(payload.purchaseDate);
+
+    await this._repository.save(list);
+
+    const itemsWithoutList = items.map((item) => {
+      const { list, ...itemWithoutList } = item;
+      return itemWithoutList;
+    });
+
+    return {
+      list,
+      items: itemsWithoutList,
+    };
   }
 }
 

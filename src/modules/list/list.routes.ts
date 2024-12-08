@@ -6,6 +6,7 @@ import {
   acceptInviteSchema,
   createSchema,
   inviteSchema,
+  overrideListSchema,
   updateSchema,
 } from './list.request';
 import ListService from './list.service';
@@ -38,6 +39,11 @@ router.post(
   '/invite/:listId',
   validateRequest(inviteSchema),
   listController.invite.bind(listController),
+);
+router.post(
+  '/finish/:listId',
+  validateRequest(overrideListSchema),
+  listController.finishList.bind(listController),
 );
 
 router.put(
