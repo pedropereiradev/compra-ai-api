@@ -30,6 +30,7 @@ class ItemService {
         name: payload.name,
         quantity: payload.quantity,
         price: payload.price ? Number(payload.price) : null,
+        unitPrice: null,
         description: payload.description,
         list,
       });
